@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+
+import sys
+import parse_re
+import re_to_nfa
+import nfa_path
+import nfa
+
+
+
+def main():
+	regexp = sys.argv[1]
+	string = sys.argv[2]
+	
+#parse regular expression
+	#regexp = parse_re.parse(regexp) 
+
+
+	M = re_to_nfa.re_to_nfa(regexp) # get nfa version of the regex
+	#M = nfa.read_nfa("outfile") # read the nfa
+
+	accept, transitions = nfa_path.match_string(M, string) # match string to nfa
+
+	if accept:
+		print('accept')
+		group_dict = get_groups(transitions, string)
+		for group in group_dict:
+			print(f'{group}:{group_dict[group]}')		
+			
+	else:
+		print('reject')
+		
+	
+	
+	
+def get_groups(transitions, string):
+	group_dict = {}
+	group_no = 0
+	for transition in transitions:
+		if transition.symbol == '(':
+			group_no = transition.group_no
+		if transition.symbol in string:
+			group_dict[group_no] = transition.symbol
+		if transition.symbol == ')':
+			group_no = 0
+	return group_dict
+				
+	
+	
+	
+	
+	
+if __name__ == '__main__':
+	main()

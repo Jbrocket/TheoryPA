@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+from nfa import *
+from nfa_path import *
+from MEGALIB import *
+from parse_re import *
+import sys
+
+
+regex = sys.argv[1:]
+regex = regex[0]
+if len(regex)>1:
+	string = parseExpr(sys.argv[1])
+elif len(regex) == 1:
+	string = parseExpr(sys.argv[1])
+else:
+	string = '(epsilon)'
+
+#print(string)
+NFA5 = re_to_nfa(string)
+write_nfa(NFA5, sys.stdout)

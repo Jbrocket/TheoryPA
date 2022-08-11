@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+from nfa import *
+from nfa_path import *
+from MEGALIB import *
+import sys
+
+args= sys.argv[1:]
+NFA1 = read_nfa(args[0])
+NFA2 = read_nfa(args[1])
+NFA3 = concat_nfa(NFA1, NFA2)
+write_nfa(NFA3, sys.stdout)
